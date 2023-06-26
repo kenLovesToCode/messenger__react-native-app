@@ -1,15 +1,17 @@
-import { ReactNode, createContext, useState } from 'react';
+import { ReactNode, createContext, useEffect, useRef, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Credentials, LoginUser, UserDetails } from '../models';
 import { useMutation } from 'react-query';
 import { login } from '../requests';
+import { AppState } from 'react-native';
 
 export interface IAuthContext {
     userDetails?: UserDetails;
     jwt?: string;
     isLoggedIn: boolean;
     isLoggingIn: boolean;
+    isActive: boolean;
     onLogin: (loginUser: LoginUser) => void;
     onLogout: () => void;
 }
@@ -19,6 +21,7 @@ export const AuthContext = createContext<IAuthContext>({
     jwt: undefined,
     isLoggedIn: false,
     isLoggingIn: false,
+    isActive: false,
     onLogin: () => null,
     onLogout: () => null,
 });
@@ -28,6 +31,23 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [jwt, setJwt] = useState<string>();
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+    const appState = useRef(AppState.currentState);
+    const [appStateVisible, setAppStateVisible] = useState(appState.current);
+
+    useEffect(() => {
+        const subscription = AppState.addEventListener(
+            'change',
+            (nextAppState) => {
+                appState.current = nextAppState;
+                setAppStateVisible(appState.current);
+            }
+        );
+
+        return () => {
+            subscription.remove();
+        };
+    }, []);
 
     const loginMutation = useMutation(
         (loginUser: LoginUser) => login(loginUser),
@@ -76,6 +96,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 jwt,
                 isLoggedIn,
                 isLoggingIn,
+                isActive: isLoggedIn && appStateVisible === 'active',
                 onLogin: loginHandler,
                 onLogout: logoutHandler,
             }}
