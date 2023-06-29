@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 
 import Screen from './src/screen';
 import { AuthProvider } from './src/shared/auth/context/auth.context';
+import { FriendsProvider } from './src/shared/friends/contexts/friends.context';
 
 export default function App(): JSX.Element {
     return (
@@ -13,9 +14,11 @@ export default function App(): JSX.Element {
             <AuthProvider>
                 <SafeAreaProvider style={{ flex: 1 }}>
                     <SafeAreaView style={styles.container}>
-                        <PaperProvider>
-                            <Screen />
-                        </PaperProvider>
+                        <FriendsProvider>
+                            <PaperProvider>
+                                <Screen />
+                            </PaperProvider>
+                        </FriendsProvider>
                     </SafeAreaView>
                 </SafeAreaProvider>
             </AuthProvider>

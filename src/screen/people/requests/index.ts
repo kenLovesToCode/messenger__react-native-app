@@ -6,5 +6,7 @@ export const getFriendRequests = async () => {
         `${baseUrl}/get-friends`
     );
 
+    console.log('called');
+    console.log(friendRequests);
     return friendRequests;
 };

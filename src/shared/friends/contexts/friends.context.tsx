@@ -14,6 +14,7 @@ import { useQuery } from 'react-query';
 import { getFriendRequests } from '../../../screen/people/requests';
 import getFriends from '../helpers/friends';
 import { UserDetails } from '../../auth/models';
+import { baseUrl } from '../../request';
 
 export interface IFriendsContext {
     friends: IActiveFriend[];
@@ -32,7 +33,6 @@ export const FriendsProvider = ({ children }: { children: ReactNode }) => {
     const [friends, setFriends] = useState<IActiveFriend[]>([]);
     const [friend, setFriend] = useState<IActiveFriend>({} as IActiveFriend);
     const [isLoading, setIsLoading] = useState(false);
-
     useQuery(
         'friendRequests',
         async () => {
@@ -61,8 +61,6 @@ export const FriendsProvider = ({ children }: { children: ReactNode }) => {
             },
         }
     );
-
-    const baseUrl = 'http://10.0.2.2:6000';
 
     const socket = useMemo(
         () =>
