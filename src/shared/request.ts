@@ -5,7 +5,7 @@ import { Credentials } from './auth/models';
 // export const baseUrl =
 //     Platform.OS === 'android' ? 'http://10.0.2.2:4000' : 'http:/localhost:4000';
 
-export const baseUrl = 'https://3c11-49-149-75-81.ngrok-free.app';
+export const baseUrl = 'https://ba1d-120-28-212-29.ngrok-free.app';
 
 const _retrieveConfigCredentials = async (
     config: InternalAxiosRequestConfig<any>

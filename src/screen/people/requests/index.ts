@@ -7,6 +7,5 @@ export const getFriendRequests = async () => {
     );
 
     console.log('called');
-    console.log(friendRequests);
     return friendRequests;
 };

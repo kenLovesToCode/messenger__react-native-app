@@ -53,7 +53,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         (loginUser: LoginUser) => login(loginUser),
         {
             onSuccess: (credentials) => {
-                console.log('response: ', credentials);
                 setIsLoggingIn(false);
                 setUserDetails(credentials.user);
                 setJwt(credentials.token);

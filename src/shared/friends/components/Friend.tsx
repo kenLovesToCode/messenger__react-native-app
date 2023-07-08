@@ -15,14 +15,14 @@ type Props = {
 };
 
 const Friend = ({ friend, showMessage = false }: Props) => {
-    const { setFriend } = useContext(FriendsContext);
+    // const { setFriend } = useContext(FriendsContext);
     const navigate = useNavigate();
 
     const { id, firstName, lastName, isActive } = friend;
 
-    useEffect(() => {
-        setFriend(friend);
-    }, [friend, isActive, setFriend]);
+    // useEffect(() => {
+    //     setFriend(friend);
+    // }, [friend, isActive, setFriend]);
 
     return (
         <Pressable
@@ -57,7 +57,7 @@ const Friend = ({ friend, showMessage = false }: Props) => {
                         {firstName} {lastName}
                     </Text>
                     {showMessage && (
-                        <Text>This was the last message | Sun</Text>
+                        <Text>This was the last message | Sun yawa</Text>
                     )}
                 </View>
             </View>

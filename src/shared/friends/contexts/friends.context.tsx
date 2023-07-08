@@ -19,13 +19,13 @@ import { baseUrl } from '../../request';
 export interface IFriendsContext {
     friends: IActiveFriend[];
     isLoading: boolean;
-    setFriend: (friend: IActiveFriend) => void;
+    // setFriend: (friend: IActiveFriend) => void;
 }
 
 export const FriendsContext = createContext<IFriendsContext>({
     friends: [],
     isLoading: false,
-    setFriend: () => null,
+    // setFriend: () => null,
 });
 
 export const FriendsProvider = ({ children }: { children: ReactNode }) => {
@@ -33,12 +33,14 @@ export const FriendsProvider = ({ children }: { children: ReactNode }) => {
     const [friends, setFriends] = useState<IActiveFriend[]>([]);
     const [friend, setFriend] = useState<IActiveFriend>({} as IActiveFriend);
     const [isLoading, setIsLoading] = useState(false);
+
     useQuery(
         'friendRequests',
         async () => {
             setIsLoading(true);
 
             const friendRequests = await getFriendRequests();
+            console.log('userDetails: ', userDetails);
 
             const _friends = getFriends(
                 friendRequests,
@@ -49,6 +51,7 @@ export const FriendsProvider = ({ children }: { children: ReactNode }) => {
                 ...f,
                 isActive: false,
             }));
+            console.log('activeFriends ', activeFriends);
 
             setFriends(activeFriends);
 
@@ -77,7 +80,11 @@ export const FriendsProvider = ({ children }: { children: ReactNode }) => {
     );
 
     useEffect(() => {
+        socket.on('receiveJovan', (msg) => {
+            console.log('MESSAGES HERE: ', msg);
+        });
         socket.emit('updateActiveStatus', isActive);
+        console.log('updateActiveStatus: ', isActive);
 
         socket.on(
             'friendActive',
@@ -88,6 +95,7 @@ export const FriendsProvider = ({ children }: { children: ReactNode }) => {
                 id: number;
                 isActive: boolean;
             }) => {
+                console.log('SETTING FRINEDS?????????');
                 setFriends((prevFriends) => {
                     if (userDetails?.id === id) return prevFriends;
 
@@ -112,7 +120,7 @@ export const FriendsProvider = ({ children }: { children: ReactNode }) => {
             value={{
                 friends,
                 isLoading,
-                setFriend,
+                // setFriend,
             }}
         >
             {children}

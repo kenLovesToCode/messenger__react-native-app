@@ -18,8 +18,6 @@ const getFriends = (friendRequests: IFriendRequest[], userId: number) => {
         } as UserDetails;
     });
 
-    console.log('getFriends: ', friends);
-
     return friends;
 };
 
